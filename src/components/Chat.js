@@ -1,4 +1,4 @@
-import '../CSS/App.css';
+import React, { useState, useEffect } from 'react';
 
 import Button from './button';
 
@@ -12,12 +12,13 @@ firebase.initializeApp({
     projectId: "chat-app-de2d0",
     storageBucket: "chat-app-de2d0.appspot.com",
     messagingSenderId: "230051047634",
-    appId: "1:230051047634:web:9abb0b089f3a88a97b650b",
-    measurementId: "G-LQQJ5DC814"
-
+    appId: "1:230051047634:web:9abb0b089f3a88a97b650b"
+    // measurementId: "G-LQQJ5DC814"
 })
 
-function App() {
+const auth = firebase.auth();
+
+function Chat() {
   const [user, setUser] = useState(() => auth.currentUser);
   const [initializing, setInitializing] = useState(true);
 
@@ -28,18 +29,19 @@ function App() {
       }else{
         setUser(null);
       }
-    });
+      if(initializing){
+        setInitializing(false);
+      }
+    });    
 
-    if(initializing){
-      setInitializing(false);
-    }
+    return unsubscribe;
   }, [])
 
   const signInWithGoogle = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.useDeviceLanguage();
     try{
-      await auth.signInWithGoogle(provider);
+      await auth.signInWithPopup(provider);
     } catch (error){
       console.log(error);
     }
@@ -69,4 +71,4 @@ function App() {
   );
 }
 
-export default App;
+export default Chat;
