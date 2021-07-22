@@ -1,4 +1,12 @@
-import './App.css';
+// Firebase deps
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
+
+
+
+const auth = firebase.auth();
+
 
 function App() {
   return (
